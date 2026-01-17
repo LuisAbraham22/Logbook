@@ -1,0 +1,21 @@
+{
+  "id": "linen",
+  "label": "Linen",
+  "kind": "light",
+  "tokens": {
+    "background": "#f7f4ef",
+    "surface": "#ffffff",
+    "text": "#2c2b2a",
+    "textMuted": "#6f6b66",
+    "border": "#e3ddd5",
+    "accent": "#c76b42",
+    "accentText": "#ffffff",
+    "editorBackground": "#f7f4ef",
+    "editorText": "#2c2b2a",
+    "editorCaret": "#c76b42",
+    "editorSelection": "rgba(199, 107, 66, 0.2)",
+    "editorLineHighlight": "rgba(44, 43, 42, 0.04)",
+    "editorGutterBackground": "#f7f4ef",
+    "editorGutterText": "#a49e97"
+  }
+}

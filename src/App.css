@@ -1,0 +1,128 @@
+* {
+    box-sizing: border-box;
+}
+
+:root {
+    font-family:
+        "Inter",
+        "SF Pro Text",
+        system-ui,
+        -apple-system,
+        sans-serif;
+    font-size: 15px;
+    line-height: 1.6;
+    font-weight: 400;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background-color: var(--lb-bg, #0f1115);
+    color: var(--lb-text, #e6e8ee);
+}
+
+body {
+    background-color: var(--lb-bg, #0f1115);
+    color: var(--lb-text, #e6e8ee);
+}
+
+html,
+body,
+#root,
+.app-root,
+.app-shell {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
+.app-root,
+.app-shell {
+    min-height: 100vh;
+}
+
+.app-shell {
+    display: flex;
+}
+
+.editor-host,
+.cm-editor {
+    flex: 1;
+    height: 100%;
+    width: 100%;
+}
+
+.cm-scroller {
+    padding: 24px;
+}
+
+/* ============================================================================
+   Live Preview / Hide Markers Styles
+   ============================================================================ */
+
+/* Hidden marker - zero-width, invisible */
+.cm-hidden-marker {
+    display: inline;
+    width: 0;
+    font-size: 0;
+}
+
+/* Headings */
+.cm-heading {
+    font-weight: 600;
+}
+
+.cm-heading-1 {
+    font-size: 1.875em;
+    line-height: 1.3;
+}
+
+.cm-heading-2 {
+    font-size: 1.5em;
+    line-height: 1.35;
+}
+
+.cm-heading-3 {
+    font-size: 1.25em;
+    line-height: 1.4;
+}
+
+.cm-heading-4 {
+    font-size: 1.125em;
+    line-height: 1.45;
+}
+
+.cm-heading-5 {
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.cm-heading-6 {
+    font-size: 0.875em;
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+}
+
+/* Emphasis (italic) */
+.cm-emphasis {
+    font-style: italic;
+}
+
+/* Strong (bold) */
+.cm-strong {
+    font-weight: 700;
+}
+
+/* Inline code */
+.cm-inline-code {
+    font-family: "SF Mono", "Fira Code", "Consolas", monospace;
+    font-size: 0.9em;
+    background-color: var(--lb-surface, rgba(255, 255, 255, 0.06));
+    padding: 0.1em 0.3em;
+    border-radius: 4px;
+}
+
+/* Strikethrough */
+.cm-strikethrough {
+    text-decoration: line-through;
+    opacity: 0.7;
+}

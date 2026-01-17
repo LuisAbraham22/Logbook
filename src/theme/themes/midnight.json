@@ -1,0 +1,21 @@
+{
+  "id": "midnight",
+  "label": "Midnight",
+  "kind": "dark",
+  "tokens": {
+    "background": "#0f1115",
+    "surface": "#151922",
+    "text": "#e6e8ee",
+    "textMuted": "#9aa3b2",
+    "border": "#232a37",
+    "accent": "#f4b26f",
+    "accentText": "#1b1205",
+    "editorBackground": "#0f1115",
+    "editorText": "#e6e8ee",
+    "editorCaret": "#f4b26f",
+    "editorSelection": "rgba(244, 178, 111, 0.25)",
+    "editorLineHighlight": "rgba(255, 255, 255, 0.04)",
+    "editorGutterBackground": "#0f1115",
+    "editorGutterText": "#5e6878"
+  }
+}
