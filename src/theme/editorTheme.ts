@@ -17,8 +17,8 @@ export const createEditorTheme = (kind: ThemeKind) => {
       ".cm-cursor, .cm-dropCursor": {
         borderLeftColor: "var(--lb-editor-caret)",
       },
-      "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, ::selection": {
-        backgroundColor: "var(--lb-editor-selection)",
+      "&.cm-focused .cm-selectionBackground, .cm-selectionBackground, .cm-content ::selection": {
+        backgroundColor: "var(--lb-editor-selection) !important",
       },
       // Active line highlight to subtly guide focus.
       ".cm-activeLine": {

@@ -13,9 +13,14 @@ const TOKEN_TO_CSS_VARIABLE: Record<keyof ThemeTokens, string> = {
   editorText: "--lb-editor-text",
   editorCaret: "--lb-editor-caret",
   editorSelection: "--lb-editor-selection",
+  editorSelectionInactive: "--lb-editor-selection-inactive",
   editorLineHighlight: "--lb-editor-line",
   editorGutterBackground: "--lb-editor-gutter-bg",
   editorGutterText: "--lb-editor-gutter-text",
+  editorCodeBackground: "--lb-editor-code-bg",
+  editorLink: "--lb-editor-link",
+  editorSeparator: "--lb-editor-separator",
+  editorTaskBorder: "--lb-editor-task-border",
 };
 
 // Apply a theme by writing every token into CSS variables.

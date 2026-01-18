@@ -44,8 +44,67 @@ class HiddenMarkerWidget extends WidgetType {
   }
 }
 
+class BulletWidget extends WidgetType {
+  toDOM() {
+    const span = document.createElement("span");
+    span.className = "cm-list-bullet";
+    span.textContent = "•";
+    return span;
+  }
+}
+
+class OrderedListWidget extends WidgetType {
+  constructor(private num: string) { super(); }
+  toDOM() {
+    const span = document.createElement("span");
+    span.className = "cm-list-number";
+    span.textContent = this.num;
+    return span;
+  }
+}
+
+class CheckboxWidget extends WidgetType {
+  constructor(private checked: boolean, private pos: number) { super(); }
+  
+  eq(other: CheckboxWidget) {
+    return this.checked === other.checked && this.pos === other.pos;
+  }
+
+  toDOM(view: EditorView) {
+    const span = document.createElement("span");
+    span.className = `cm-checkbox ${this.checked ? "cm-checkbox-checked" : ""}`;
+    span.innerHTML = this.checked
+      ? `<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><path d="M.5 12.853c0 2.2 1.447 3.647 3.647 3.647h7.706c2.2 0 3.647-1.447 3.647-3.647V3.147C15.5 .947 14.053-.5 11.853-.5H4.147C1.947-.5.5.947.5 3.147v9.706z" fill="var(--lb-editor-bg, #fff)"/><rect x=".5" y=".5" width="15" height="15" rx="4" stroke="currentColor" fill="var(--lb-editor-bg, #fff)"/><path d="M12.526 4.615L6.636 9.58l-2.482-.836c-.19-.06-.408.003-.518.15-.116.15-.106.352.026.495l2.722 2.91c.086.09.21.144.34.144h.046c.12-.013.234-.07.307-.156l6.1-7.125c.143-.166.123-.407-.046-.548-.164-.138-.435-.14-.604 0z" fill="var(--lb-accent, #7c8aff)"/></g></svg>`
+      : `<svg width="16" height="16" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg"><g fill="none" fill-rule="evenodd"><rect x=".5" y=".5" width="15" height="15" rx="4" stroke="currentColor" fill="var(--lb-editor-bg, #fff)"/></g></svg>`;
+    
+    span.addEventListener("mousedown", (e) => {
+      e.preventDefault();
+      const newText = this.checked ? "[ ]" : "[x]";
+      view.dispatch({
+        changes: { from: this.pos, to: this.pos + 3, insert: newText }
+      });
+    });
+    
+    return span;
+  }
+
+  ignoreEvent() { return false; }
+}
+
 const hideDecoration = Decoration.replace({
   widget: new HiddenMarkerWidget(),
+});
+
+const bulletDecoration = Decoration.replace({
+  widget: new BulletWidget(),
+});
+
+const checkboxDecoration = (checked: boolean, pos: number) => Decoration.replace({
+  widget: new CheckboxWidget(checked, pos),
+});
+
+const orderedListDecoration = (num: string) => Decoration.replace({
+  widget: new OrderedListWidget(num),
 });
 
 // ============================================================================
@@ -202,6 +261,80 @@ function buildDecorations(view: EditorView): DecorationSet {
             if (!cursorIn) {
               decos.push({ from: firstMark.from, to: firstMark.to, deco: hideDecoration });
               decos.push({ from: lastMark.from, to: lastMark.to, deco: hideDecoration });
+            }
+          }
+        }
+
+        // List items: - item, * item, 1. item (but not tasks, handled separately)
+        if (node.name === "ListItem") {
+          // Skip if this contains a Task (handled below)
+          let hasTask = false;
+          let child = node.node.firstChild;
+          while (child) {
+            if (child.name === "Task") {
+              hasTask = true;
+              break;
+            }
+            child = child.nextSibling;
+          }
+          
+          if (!hasTask) {
+            child = node.node.firstChild;
+            while (child) {
+              if (child.name === "ListMark") {
+                const markText = view.state.sliceDoc(child.from, child.to).trim();
+                const cursorInMarker = isCursorInRange(view, child.from, child.to);
+                if (!cursorInMarker) {
+                  if (/^\d+\.$/.test(markText)) {
+                    decos.push({ from: child.from, to: child.to + 1, deco: orderedListDecoration(markText) });
+                  } else {
+                    decos.push({ from: child.from, to: child.to + 1, deco: bulletDecoration });
+                  }
+                }
+                break;
+              }
+              child = child.nextSibling;
+            }
+          }
+        }
+
+        // Task list: - [ ] or - [x]
+        if (node.name === "Task") {
+          let taskMarker: { from: number; to: number } | null = null;
+          let listMark: { from: number; to: number } | null = null;
+          
+          const parent = node.node.parent;
+          if (parent?.name === "ListItem") {
+            let sibling = parent.firstChild;
+            while (sibling) {
+              if (sibling.name === "ListMark") {
+                listMark = { from: sibling.from, to: sibling.to };
+                break;
+              }
+              sibling = sibling.nextSibling;
+            }
+          }
+          
+          let child = node.node.firstChild;
+          while (child) {
+            if (child.name === "TaskMarker") {
+              taskMarker = { from: child.from, to: child.to };
+              break;
+            }
+            child = child.nextSibling;
+          }
+          
+          if (taskMarker) {
+            const rangeStart = listMark ? listMark.from : taskMarker.from;
+            const cursorInMarker = isCursorInRange(view, rangeStart, taskMarker.to - 1);
+            
+            if (!cursorInMarker) {
+              if (listMark) {
+                decos.push({ from: listMark.from, to: listMark.to + 1, deco: hideDecoration });
+              }
+              const text = view.state.sliceDoc(taskMarker.from, taskMarker.to);
+              const checked = text.includes("x") || text.includes("X");
+              decos.push({ from: taskMarker.from, to: taskMarker.to, deco: checkboxDecoration(checked, taskMarker.from) });
             }
           }
         }

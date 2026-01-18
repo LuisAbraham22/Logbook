@@ -14,8 +14,13 @@
     "editorText": "#2c2b2a",
     "editorCaret": "#c76b42",
     "editorSelection": "rgba(199, 107, 66, 0.2)",
+    "editorSelectionInactive": "rgba(44, 43, 42, 0.1)",
     "editorLineHighlight": "rgba(44, 43, 42, 0.04)",
     "editorGutterBackground": "#f7f4ef",
-    "editorGutterText": "#a49e97"
+    "editorGutterText": "#a49e97",
+    "editorCodeBackground": "rgba(44, 43, 42, 0.06)",
+    "editorLink": "#c76b42",
+    "editorSeparator": "#e3ddd5",
+    "editorTaskBorder": "#a49e97"
   }
 }

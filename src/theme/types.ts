@@ -12,9 +12,14 @@ export type ThemeTokens = {
   editorText: string;
   editorCaret: string;
   editorSelection: string;
+  editorSelectionInactive: string;
   editorLineHighlight: string;
   editorGutterBackground: string;
   editorGutterText: string;
+  editorCodeBackground: string;
+  editorLink: string;
+  editorSeparator: string;
+  editorTaskBorder: string;
 };
 
 export type ThemeDefinition = {

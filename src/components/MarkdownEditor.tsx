@@ -2,7 +2,8 @@ import { minimalSetup } from "codemirror";
 import { EditorView, keymap } from "@codemirror/view";
 import { Compartment, EditorState } from "@codemirror/state";
 import { indentWithTab } from "@codemirror/commands";
-import { markdown } from "@codemirror/lang-markdown";
+import { markdown, markdownLanguage } from "@codemirror/lang-markdown";
+import { GFM } from "@lezer/markdown";
 import { syntaxTree, syntaxTreeAvailable, forceParsing, language } from "@codemirror/language";
 import React, { useEffect, useRef } from "react";
 import { createEditorTheme } from "../theme/editorTheme";
@@ -27,7 +28,7 @@ export function MarkdownEditor({ theme }: MarkdownEditorProps): React.ReactEleme
       return;
     }
 
-    const mdLang = markdown();
+    const mdLang = markdown({ base: markdownLanguage, extensions: [GFM] });
     console.log("[Editor] markdown() returned:", mdLang);
     console.log("[Editor] mdLang.language:", mdLang.language);
     console.log("[Editor] mdLang.extension:", mdLang.extension);

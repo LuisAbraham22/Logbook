@@ -1,0 +1,26 @@
+{
+  "id": "dark-notes",
+  "label": "Dark Notes",
+  "kind": "dark",
+  "tokens": {
+    "background": "#1E1F1E",
+    "surface": "#262726",
+    "text": "#DCDBDC",
+    "textMuted": "#999A9B",
+    "border": "#353639",
+    "accent": "#FBB826",
+    "accentText": "#1E1F1E",
+    "editorBackground": "#1E1F1E",
+    "editorText": "#DCDBDC",
+    "editorCaret": "#FBB826",
+    "editorSelection": "#8A764B",
+    "editorSelectionInactive": "#464646",
+    "editorLineHighlight": "rgba(255, 255, 255, 0.04)",
+    "editorGutterBackground": "#1E1F1E",
+    "editorGutterText": "#5D5E5D",
+    "editorCodeBackground": "#323431",
+    "editorLink": "#FBB826",
+    "editorSeparator": "#353639",
+    "editorTaskBorder": "#565656"
+  }
+}
